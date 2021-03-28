@@ -8,11 +8,22 @@
 .infoBox:not(:last-child) {
   margin-right: 20px;
 }
+@media (max-width: 400px) {
+  .infoBox > .MuiTypography-root {
+    font-size: 0.8rem;
+  }
+}
 .infoBox__cases {
   color: #cc1034;
   font-weight: 600;
   font-size: 1.75rem;
   margin-bottom: 0.5rem;
+}
+/* Cases should be smaller on smaller screens */
+@media (max-width: 500px) {
+  .infoBox__cases {
+    font-size: 1.25rem;
+  }
 }
 .infoBox__cases--green {
   color: #7dd71d !important;
