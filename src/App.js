@@ -73,10 +73,10 @@ function App() {
         //All of the data from country response
         setCountryInfo(data);
         setMapCenter({
-          lat: data.countryInfo.lat,
-          lng: data.countryInfo.long,
+          lat: data.countryInfo?.lat ?? 34.80746,
+          lng: data.countryInfo?.long ?? -40.4796,
         });
-        setMapZoom(4);
+        countryCode === "worldwide" ? setMapZoom(3) : setMapZoom(7);
       });
   };
 
@@ -95,7 +95,9 @@ function App() {
             >
               <MenuItem value="worldwide">Worldwide</MenuItem>
               {countries.map((country) => (
-                <MenuItem value={country.value}>{country.name}</MenuItem>
+                <MenuItem key={country.value} value={country.value}>
+                  {country.name}
+                </MenuItem>
               ))}
               {/* <MenuItem value="Worldwide">Worldwide</MenuItem> */}
             </Select>
@@ -107,23 +109,26 @@ function App() {
             title="Coronavirus Cases"
             cases={preetyPrintStat(countryInfo.todayCases)}
             total={preetyPrintStat(countryInfo.tests)}
+            active={casesType === "cases"}
           />
           <InfoBox
             onClick={(e) => setCasesType("recovered")}
             title="Recovered"
             cases={preetyPrintStat(countryInfo.todayRecovered)}
             total={preetyPrintStat(countryInfo.recovered)}
+            active={casesType === "recovered"}
           />
           <InfoBox
             onClick={(e) => setCasesType("deaths")}
             title="Deaths"
             cases={preetyPrintStat(countryInfo.todayDeaths)}
             total={preetyPrintStat(countryInfo.deaths)}
+            active={casesType === "deaths"}
           />
         </div>
 
         <Map
-          casesTypes={casesType}
+          casesType={casesType}
           center={mapCenter}
           zoom={mapZoom}
           countries={mapCountries}
@@ -135,11 +140,14 @@ function App() {
         <CardContent>
           <h3> Live Cases By Country</h3>
           <Table countries={tableData} />
-          <h3> Worldwide New Cases</h3>
+          <h3>
+            {country === "worldwide" ? "Worldwide" : countryInfo.country} New{" "}
+            {casesType}
+          </h3>
         </CardContent>
         {/* Table */}
         {/* Graph */}
-        <LineGraph casesType={"cases"} />
+        <LineGraph casesType={casesType} />
       </Card>
     </div>
   );

@@ -7,7 +7,7 @@ const casesTypeColors = {
     hex: "#CC1034",
     multiplier: "200",
   },
-  recoverd: {
+  recovered: {
     hex: "#7dd71d",
     multiplier: "400",
   },
@@ -23,13 +23,16 @@ export const preetyPrintStat = (stat) =>
 export const sortData = (data) =>
   data.sort((a, b) => (a.cases > b.cases ? -1 : 1));
 
-export const showDataOnMap = (data, casesType = "cases") =>
+export const showDataOnMap = (data, casesType) =>
   data.map((country) => (
     <Circle
+      pathOptions={{
+        color: casesTypeColors[casesType].hex,
+        fillColor: casesTypeColors[casesType].hex,
+      }}
+      key={country.country}
       center={[country.countryInfo.lat, country.countryInfo.long]}
       fillOpacity={0.4}
-      color={casesTypeColors[casesType].hex}
-      fillColor={casesTypeColors[casesType].hex}
       radius={
         Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier
       }

@@ -47,11 +47,11 @@ const options = {
   },
 };
 
-const LineGraph = ({ casesType = "cases" }) => {
+const LineGraph = ({ casesType }) => {
   const [data, setData] = useState([]);
 
   //https://disease.sh/docs/#/COVID-19:%20JHUCSSE/get_v3_covid_19_historical_all
-  const buildChartData = (data, casesType = "cases") => {
+  const buildChartData = (data, casesType) => {
     const chartData = [];
     let lastDataPoint;
     Object.keys(data[casesType]).forEach((date) => {
@@ -70,7 +70,7 @@ const LineGraph = ({ casesType = "cases" }) => {
     fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
       .then((response) => response.json())
       .then((data) => {
-        const chartData = buildChartData(data);
+        const chartData = buildChartData(data, casesType);
         setData(chartData);
       });
   }, [casesType]);
